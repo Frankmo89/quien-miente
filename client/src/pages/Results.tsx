@@ -36,7 +36,7 @@ export default function Results() {
                   ¡El mentiroso gana!
                 </h2>
                 <div className="bg-destructive/20 p-8 rounded-2xl border-4 border-destructive">
-                  <div className="text-6xl mb-4">{liar?.avatar}</div>
+                  <div className="text-4xl font-bold text-primary mb-4">{liar?.avatar}</div>
                   <p className="text-3xl font-bold">{liar?.name}</p>
                   <p className="text-2xl text-muted-foreground mt-2">
                     era el mentiroso y os ha engañado a todos
@@ -53,7 +53,7 @@ export default function Results() {
                   ¡Inocentes ganan!
                 </h2>
                 <div className="bg-primary/20 p-8 rounded-2xl border-4 border-primary">
-                  <div className="text-6xl mb-4">{liar?.avatar}</div>
+                  <div className="text-4xl font-bold text-primary mb-4">{liar?.avatar}</div>
                   <p className="text-3xl font-bold">{liar?.name}</p>
                   <p className="text-2xl text-muted-foreground mt-2">
                     era el mentiroso y ha sido descubierto
@@ -82,7 +82,7 @@ export default function Results() {
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-3xl">{player.avatar}</span>
+                    <span className="text-2xl font-bold text-primary">{player.avatar}</span>
                     <span className="text-xl font-semibold">{player.name}</span>
                     {player.id === results.liarId && (
                       <span className="text-sm font-bold text-destructive px-2 py-1 bg-destructive/20 rounded">
@@ -115,7 +115,7 @@ export default function Results() {
                     <span className="text-2xl font-bold text-muted-foreground w-8">
                       #{index + 1}
                     </span>
-                    <span className="text-3xl">{player.avatar}</span>
+                    <span className="text-2xl font-bold text-primary">{player.avatar}</span>
                     <span className="text-xl font-semibold">{player.name}</span>
                   </div>
                   <div className="text-3xl font-black text-primary">{player.score}</div>

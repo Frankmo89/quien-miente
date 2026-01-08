@@ -47,7 +47,7 @@ export default function Home() {
         </div>
 
         <div className="text-muted-foreground text-lg">
-          <p>🎭 Un teléfono • 3-8 jugadores • Diversión garantizada</p>
+          <p>Un teléfono • 3-8 jugadores • Diversión garantizada</p>
         </div>
       </div>
     </div>
