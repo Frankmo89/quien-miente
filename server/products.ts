@@ -35,6 +35,18 @@ export const PRODUCTS: Record<string, Product> = {
     description: "Aventuras, desastres y descubrimientos en tus viajes",
     price: 299, // $2.99
   },
+  "office-secrets": {
+    id: "office-secrets",
+    name: "Office Secrets",
+    description: "Secretos de oficina, dinámicas laborales y confesiones profesionales",
+    price: 299, // $2.99
+  },
+  "extreme-travel": {
+    id: "extreme-travel",
+    name: "Extreme Travel Anecdotes",
+    description: "Historias de viaje intensas, peligrosas y transformadoras",
+    price: 299, // $2.99
+  },
 };
 
 export function getProductById(productId: string): Product | undefined {

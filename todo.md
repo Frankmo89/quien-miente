@@ -68,3 +68,11 @@
 - [x] Create engaging mini challenges for Familiar mode
 - [x] Create engaging mini challenges for Adultos mode
 - [x] Remove emoji usage from UI (focus on clear typography)
+
+
+## New Premium Packs
+- [x] Create "Office Secrets" pack (30 questions - Adultos mode)
+- [x] Create "Extreme Travel Anecdotes" pack (30 questions - Familiar and Adultos)
+- [x] Add packs to database with Stripe pricing
+- [x] Update Store page to display new packs
+- [x] Test purchase flow for new packs
