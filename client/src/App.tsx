@@ -1,21 +1,61 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { useGame } from "./contexts/GameContext";
 import Home from "./pages/Home";
+import ModeSelection from "./pages/ModeSelection";
+import PlayerCount from "./pages/PlayerCount";
+import PlayerSetup from "./pages/PlayerSetup";
+import { RoleAssignmentIntro, RoleAssignment, RoleAssignmentComplete } from "./pages/RoleAssignment";
+import Question from "./pages/Question";
+import { VotingIntro, Voting } from "./pages/Voting";
+import Results from "./pages/Results";
+import Challenge from "./pages/Challenge";
+import EndRound from "./pages/EndRound";
+import Store from "./pages/Store";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
-  return (
-    <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
-      <Route component={NotFound} />
-    </Switch>
-  );
+  const { gameState } = useGame();
+
+  // Phase-based routing for single-device game flow
+  const renderPhase = () => {
+    switch (gameState.phase) {
+      case "home":
+        return <Home />;
+      case "mode-selection":
+        return <ModeSelection />;
+      case "player-count":
+        return <PlayerCount />;
+      case "player-setup":
+        return <PlayerSetup />;
+      case "role-assignment-intro":
+        return <RoleAssignmentIntro />;
+      case "role-assignment":
+        return <RoleAssignment />;
+      case "role-assignment-complete":
+        return <RoleAssignmentComplete />;
+      case "question":
+        return <Question />;
+      case "voting-intro":
+        return <VotingIntro />;
+      case "voting":
+        return <Voting />;
+      case "results":
+        return <Results />;
+      case "challenge":
+        return <Challenge />;
+      case "end-round":
+        return <EndRound />;
+      case "store":
+        return <Store />;
+      default:
+        return <Home />;
+    }
+  };
+
+  return renderPhase();
 }
 
 // NOTE: About Theme

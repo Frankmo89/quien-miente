@@ -7,6 +7,8 @@ import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
 import "./index.css";
+import { GameProvider } from "./contexts/GameContext";
+import { AnalyticsProvider } from "./contexts/AnalyticsContext";
 
 const queryClient = new QueryClient();
 
@@ -55,7 +57,11 @@ const trpcClient = trpc.createClient({
 createRoot(document.getElementById("root")!).render(
   <trpc.Provider client={trpcClient} queryClient={queryClient}>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <AnalyticsProvider>
+        <GameProvider>
+          <App />
+        </GameProvider>
+      </AnalyticsProvider>
     </QueryClientProvider>
   </trpc.Provider>
 );

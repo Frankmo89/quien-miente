@@ -43,39 +43,40 @@
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
+  /* Vibrant party game colors - purple and yellow theme */
+  --primary: oklch(0.55 0.25 300);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.75 0.18 85);
+  --secondary-foreground: oklch(0.2 0.05 300);
+  --accent: oklch(0.65 0.25 350);
+  --accent-foreground: oklch(1 0 0);
+  --radius: 1rem;
+  --background: oklch(0.98 0.01 300);
+  --foreground: oklch(0.2 0.05 300);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.05 300);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.05 300);
+  --muted: oklch(0.95 0.01 300);
+  --muted-foreground: oklch(0.5 0.05 300);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.88 0.02 300);
+  --input: oklch(0.92 0.01 300);
+  --ring: oklch(0.55 0.25 300);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.235 0.015 65);
   --sidebar-primary: var(--color-blue-600);
   --sidebar-primary-foreground: var(--color-blue-50);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.623 0.214 259.815);
   --chart-1: var(--color-blue-300);
   --chart-2: var(--color-blue-500);
   --chart-3: var(--color-blue-600);
   --chart-4: var(--color-blue-700);
   --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
 }
 
 .dark {
@@ -119,6 +120,20 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+  }
+  
+  h1 {
+    @apply text-5xl md:text-6xl font-black tracking-tight;
+  }
+  
+  h2 {
+    @apply text-4xl md:text-5xl font-bold;
+  }
+  
+  h3 {
+    @apply text-3xl md:text-4xl font-bold;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),

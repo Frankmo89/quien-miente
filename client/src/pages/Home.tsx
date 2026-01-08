@@ -1,31 +1,55 @@
-import { useAuth } from "@/_core/hooks/useAuth";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react";
-import { getLoginUrl } from "@/const";
-import { Streamdown } from 'streamdown';
+import { useGame } from "@/contexts/GameContext";
+import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { useEffect } from "react";
 
-/**
- * All content in this page are only for example, replace with your own feature implementation
- * When building pages, remember your instructions in Frontend Workflow, Frontend Best Practices, Design Guide and Common Pitfalls
- */
 export default function Home() {
-  // The userAuth hooks provides authentication state
-  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
-  let { user, loading, error, isAuthenticated, logout } = useAuth();
+  const { setPhase } = useGame();
+  const { trackEvent } = useAnalytics();
 
-  // If theme is switchable in App.tsx, we can implement theme toggling like this:
-  // const { theme, toggleTheme } = useTheme();
+  useEffect(() => {
+    trackEvent("game_started");
+  }, []);
+
+  const handlePlayClick = () => {
+    setPhase("mode-selection");
+  };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <main>
-        {/* Example: lucide-react for icons */}
-        <Loader2 className="animate-spin" />
-        Example Page
-        {/* Example: Streamdown for markdown rendering */}
-        <Streamdown>Any **markdown** content</Streamdown>
-        <Button variant="default">Example Button</Button>
-      </main>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-6">
+      <div className="max-w-2xl w-full text-center space-y-12">
+        <div className="space-y-4">
+          <h1 className="text-6xl md:text-8xl font-black text-primary">
+            ¿QUIÉN MIENTE?
+          </h1>
+          <p className="text-2xl md:text-3xl text-muted-foreground font-semibold">
+            El juego de historias y engaños para tus amigos
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          <Button
+            size="lg"
+            className="w-full h-20 text-3xl font-bold"
+            onClick={handlePlayClick}
+          >
+            JUGAR
+          </Button>
+
+          <Button
+            size="lg"
+            variant="outline"
+            className="w-full h-16 text-2xl font-bold"
+            onClick={() => setPhase("store")}
+          >
+            Comprar Packs de Preguntas
+          </Button>
+        </div>
+
+        <div className="text-muted-foreground text-lg">
+          <p>🎭 Un teléfono • 3-8 jugadores • Diversión garantizada</p>
+        </div>
+      </div>
     </div>
   );
 }

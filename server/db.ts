@@ -89,4 +89,54 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Game-related queries
+export async function getActivePacks() {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const { questionPacks } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  return db.select().from(questionPacks).where(eq(questionPacks.isActive, 1));
+}
+
+export async function getPackById(packId: string) {
+  const db = await getDb();
+  if (!db) return null;
+  
+  const { questionPacks } = await import("../drizzle/schema");
+  const { eq } = await import("drizzle-orm");
+  
+  const result = await db.select().from(questionPacks).where(eq(questionPacks.packId, packId)).limit(1);
+  return result.length > 0 ? result[0] : null;
+}
+
+export async function getQuestionsByPackAndMode(packIds: string[], mode: "familiar" | "adultos") {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const { questions } = await import("../drizzle/schema");
+  const { inArray, eq, and } = await import("drizzle-orm");
+  
+  return db.select().from(questions).where(
+    and(
+      inArray(questions.packId, packIds),
+      eq(questions.mode, mode)
+    )
+  );
+}
+
+export async function getChallengesByMode(mode: "familiar" | "adultos") {
+  const db = await getDb();
+  if (!db) return [];
+  
+  const { miniChallenges } = await import("../drizzle/schema");
+  const { eq, or } = await import("drizzle-orm");
+  
+  return db.select().from(miniChallenges).where(
+    or(
+      eq(miniChallenges.mode, mode),
+      eq(miniChallenges.mode, "both")
+    )
+  );
+}
