@@ -2,7 +2,7 @@ import posthog from "posthog-js";
 import { createContext, useContext, useEffect, ReactNode } from "react";
 
 // PostHog configuration
-const POSTHOG_KEY = "phc_dummy_key"; // Replace with actual key when available
+const POSTHOG_KEY = "phc_S0TOX1d3fePdBYoQwRsd1jgwEaEqq1WaM9RZ7ZgdFp7"; // PostHog API Key
 const POSTHOG_HOST = "https://app.posthog.com";
 
 interface AnalyticsContextType {
@@ -13,8 +13,8 @@ const AnalyticsContext = createContext<AnalyticsContextType | undefined>(undefin
 
 export function AnalyticsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
-    // Initialize PostHog only in production or if key is provided
-    if (POSTHOG_KEY && POSTHOG_KEY !== "phc_dummy_key") {
+    // Initialize PostHog with the provided key
+    if (POSTHOG_KEY) {
       posthog.init(POSTHOG_KEY, {
         api_host: POSTHOG_HOST,
         loaded: (posthog) => {
@@ -33,7 +33,7 @@ export function AnalyticsProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const trackEvent = (eventName: string, properties?: Record<string, any>) => {
-    if (POSTHOG_KEY && POSTHOG_KEY !== "phc_dummy_key") {
+    if (POSTHOG_KEY) {
       posthog.capture(eventName, properties);
     } else {
       // Log to console in development
