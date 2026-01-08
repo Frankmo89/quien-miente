@@ -15,6 +15,7 @@ import Results from "./pages/Results";
 import Challenge from "./pages/Challenge";
 import EndRound from "./pages/EndRound";
 import Store from "./pages/Store";
+import DemoMode from "./pages/DemoMode";
 
 function Router() {
   const { gameState } = useGame();
@@ -51,6 +52,10 @@ function Router() {
       case "store":
         return <Store />;
       default:
+        // Check for demo mode route
+        if (window.location.pathname === "/demo") {
+          return <DemoMode />;
+        }
         return <Home />;
     }
   };

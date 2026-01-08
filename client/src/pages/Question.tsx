@@ -9,13 +9,16 @@ export default function Question() {
   const { gameState, setCurrentQuestion, setPhase } = useGame();
   const { trackEvent } = useAnalytics();
 
+  // Use unlocked packs or default to free pack
+  const packsToUse = gameState.unlockedPacks.length > 0 ? gameState.unlockedPacks : ["para-romper-el-hielo"];
+
   const { data: question, isLoading, error } = trpc.game.getRandomQuestion.useQuery(
     {
-      packIds: gameState.unlockedPacks,
+      packIds: packsToUse,
       mode: gameState.mode!,
     },
     {
-      enabled: !!gameState.mode && gameState.unlockedPacks.length > 0,
+      enabled: !!gameState.mode,
       refetchOnWindowFocus: false,
     }
   );
@@ -67,8 +70,8 @@ export default function Question() {
             <MessageCircle className="w-20 h-20 text-primary" />
           </div>
           
-          <div className="bg-card p-8 md:p-12 rounded-2xl border-4 border-primary shadow-2xl">
-            <h2 className="text-3xl md:text-4xl font-bold text-card-foreground leading-relaxed">
+          <div className="bg-card p-6 md:p-10 rounded-2xl border-4 border-primary shadow-2xl">
+            <h2 className="text-2xl md:text-3xl font-bold text-card-foreground leading-relaxed">
               {gameState.currentQuestion}
             </h2>
           </div>

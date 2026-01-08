@@ -32,8 +32,8 @@ export default function PlayerSetup() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-6">
       <div className="max-w-2xl w-full space-y-8">
         <div className="text-center space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground">
-            Presentaos, jugadores
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+            Preséntense, jugadores
           </h2>
           <p className="text-xl text-muted-foreground">
             Jugador {gameState.players.length + 1} de {gameState.playerCount}
@@ -61,15 +61,15 @@ export default function PlayerSetup() {
 
             <div className="space-y-3">
               <label className="text-2xl font-semibold">Elige tu avatar:</label>
-              <div className="grid grid-cols-8 gap-2">
+              <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
                 {AVATARS.map((avatar) => (
                   <button
                     key={avatar}
                     onClick={() => setSelectedAvatar(avatar)}
-                    className={`text-4xl p-3 rounded-lg border-4 transition-all ${
+                    className={`w-full aspect-square flex items-center justify-center text-5xl rounded-lg border-4 transition-all ${
                       selectedAvatar === avatar
-                        ? "border-primary bg-primary/10 scale-110"
-                        : "border-border hover:border-primary/50"
+                        ? "border-primary bg-primary/10 scale-105"
+                        : "border-border hover:border-primary/50 hover:bg-muted"
                     }`}
                   >
                     {avatar}
@@ -96,7 +96,7 @@ export default function PlayerSetup() {
               {gameState.players.map((player) => (
                 <div
                   key={player.id}
-                  className="flex items-center gap-4 p-4 bg-card rounded-lg border-2 border-border"
+                  className="flex items-center gap-4 p-4 bg-card rounded-lg border-2 border-border text-lg"
                 >
                   <span className="text-4xl">{player.avatar}</span>
                   <span className="text-2xl font-semibold">{player.name}</span>

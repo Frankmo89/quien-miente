@@ -44,6 +44,7 @@ interface GameState {
   liarId: string | null;
   roundNumber: number;
   unlockedPacks: string[];
+  isDemoMode?: boolean;
 }
 
 interface GameContextType {
@@ -254,11 +255,36 @@ export function GameProvider({ children }: { children: ReactNode }) {
   };
 
   const isPackUnlocked = (packId: string) => {
+    // Check if demo mode is enabled
+    const isDemoMode = localStorage.getItem("demo_mode") === "true";
+    if (isDemoMode) return true;
+    
     return gameState.unlockedPacks.includes(packId);
   };
 
   // Load unlocked packs from localStorage on mount
   React.useEffect(() => {
+    // Check for demo mode (all packs unlocked)
+    const isDemoMode = localStorage.getItem("demo_mode") === "true";
+    
+    if (isDemoMode) {
+      // Unlock all packs in demo mode
+      setGameState((prev) => ({
+        ...prev,
+        unlockedPacks: [
+          "para-romper-el-hielo",
+          "salseo-total",
+          "dilemas-morales",
+          "recuerdos-infancia",
+          "historias-viaje",
+          "office-secrets",
+          "extreme-travel",
+          "icebreaker"
+        ],
+      }));
+      return;
+    }
+    
     const stored = localStorage.getItem("unlocked_packs");
     if (stored) {
       try {
@@ -300,8 +326,20 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
 export function useGame() {
   const context = useContext(GameContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useGame must be used within a GameProvider");
   }
   return context;
+}
+
+// Function to enable demo mode (all packs unlocked)
+export function enableDemoMode() {
+  localStorage.setItem("demo_mode", "true");
+  window.location.reload();
+}
+
+// Function to disable demo mode
+export function disableDemoMode() {
+  localStorage.removeItem("demo_mode");
+  window.location.reload();
 }

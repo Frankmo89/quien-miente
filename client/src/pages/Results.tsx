@@ -39,7 +39,7 @@ export default function Results() {
                   <div className="text-4xl font-bold text-primary mb-4">{liar?.avatar}</div>
                   <p className="text-3xl font-bold">{liar?.name}</p>
                   <p className="text-2xl text-muted-foreground mt-2">
-                    era el mentiroso y os ha engañado a todos
+                    era el mentiroso y los ha engañado a todos
                   </p>
                   <p className="text-4xl font-black text-destructive mt-6">+2 puntos</p>
                 </div>

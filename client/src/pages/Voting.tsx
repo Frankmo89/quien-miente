@@ -109,7 +109,7 @@ export function Voting() {
               </h2>
               <p className="text-2xl text-muted-foreground">
                 {isLastVoter
-                  ? "Todos habéis votado. Vamos a ver los resultados..."
+                  ? "Todos han votado. Vamos a ver los resultados..."
                   : "Pasa el teléfono al siguiente jugador"}
               </p>
             </div>

@@ -76,3 +76,19 @@
 - [x] Add packs to database with Stripe pricing
 - [x] Update Store page to display new packs
 - [x] Test purchase flow for new packs
+
+
+## Icebreaker Pack for Team Building
+- [ ] Create "Icebreaker" pack (30 questions - Familiar and Adultos modes)
+- [ ] Design questions for professional/corporate settings
+- [ ] Add pack to database with Stripe pricing
+- [ ] Test pack in Store and purchase flow
+- [ ] Sync changes to GitHub
+
+
+## Critical Fixes Required
+- [x] Change Spanish from Spain to Latin American Spanish
+- [x] Fix text overflow issues in all screens
+- [x] Fix emoji/avatar display and alignment
+- [x] Allow game to start without pack selection (use free pack by default)
+- [x] Test all screens for proper text sizing and layout

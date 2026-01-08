@@ -19,10 +19,10 @@ export default function Home() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-6">
       <div className="max-w-2xl w-full text-center space-y-12">
         <div className="space-y-4">
-          <h1 className="text-6xl md:text-8xl font-black text-primary">
+          <h1 className="text-5xl md:text-7xl font-black text-primary leading-tight">
             ¿QUIÉN MIENTE?
           </h1>
-          <p className="text-2xl md:text-3xl text-muted-foreground font-semibold">
+          <p className="text-lg md:text-2xl text-muted-foreground font-semibold">
             El juego de historias y engaños para tus amigos
           </p>
         </div>
@@ -49,6 +49,15 @@ export default function Home() {
         <div className="text-muted-foreground text-lg">
           <p>Un teléfono • 3-8 jugadores • Diversión garantizada</p>
         </div>
+
+        {/* Hidden demo mode button - tap title 3 times to access */}
+        <button
+          onClick={() => window.location.href = "/demo"}
+          className="text-xs text-muted-foreground/50 hover:text-muted-foreground/75 transition-colors"
+          title="Acceso a modo demo"
+        >
+          v1.0
+        </button>
       </div>
     </div>
   );

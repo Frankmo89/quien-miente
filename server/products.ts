@@ -26,7 +26,7 @@ export const PRODUCTS: Record<string, Product> = {
   "recuerdos-infancia": {
     id: "recuerdos-infancia",
     name: "Recuerdos de la Infancia",
-    description: "Anécdotas y vivencias de cuando erais niños",
+    description: "Anécdotas y vivencias de cuando eran niños",
     price: 299, // $2.99
   },
   "historias-viaje": {

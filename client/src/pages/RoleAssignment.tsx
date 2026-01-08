@@ -19,10 +19,10 @@ export function RoleAssignmentIntro() {
             ¡Empieza el misterio!
           </h2>
           <p className="text-2xl md:text-3xl text-foreground">
-            Pasad el teléfono para recibir vuestro rol en secreto.
+            Pasad el teléfono para recibir su rol en secreto.
           </p>
           <p className="text-xl text-muted-foreground">
-            Uno de vosotros será el mentiroso. Los demás, inocentes.
+            Uno de ustedes será el mentiroso. Los demás, inocentes.
           </p>
         </div>
 

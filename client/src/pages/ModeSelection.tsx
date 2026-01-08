@@ -17,7 +17,7 @@ export default function ModeSelection() {
     <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-6">
       <div className="max-w-2xl w-full space-y-12">
         <div className="text-center space-y-4">
-          <h2 className="text-5xl md:text-6xl font-bold text-foreground">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground">
             ¿Qué tipo de noche es hoy?
           </h2>
         </div>
