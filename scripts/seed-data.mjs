@@ -132,7 +132,7 @@ async function seed() {
 
   // Insert mini challenges for Adultos mode (IMPROVED VERSION)
   const adultosChallenges = [
-    "Llama a tu ex y dile que aún piensas en él/ella (sin decirle que es un reto)",
+    "Llama a un amigo cercano y pídele que te cuente un secreto (sin decirle que es un reto)",
     "Envía un mensaje de texto vergonzoso a alguien importante en tu vida",
     "Haz una confesión de amor falsa a alguien del grupo",
     "Baila de forma sensual durante 30 segundos mientras todos te miran",
@@ -152,15 +152,15 @@ async function seed() {
     "Dile a alguien del grupo algo que siempre quisiste hacer con él/ella (sin ser gráfico)",
     "Confiesa tu mayor inseguridad en una relación",
     "Cuéntale al grupo sobre tu mayor miedo en una relación",
-    "Confiesa algo que has hecho que nadie sabe (puede ser ilegal o inmoral)",
+    "Confiesa algo vergonzoso que has hecho por amor",
     "Dile a alguien del grupo algo que siempre quisiste decirle pero nunca te atreviste",
     "Cuéntale al grupo sobre la vez que más miedo tuviste",
     "Confiesa algo que has hecho que te hace sentir culpable",
     "Dile a alguien del grupo algo que nadie más sabe sobre ti",
     "Cuéntale al grupo tu mayor arrepentimiento en la vida",
     "Confiesa algo que has hecho que cambió quién eres",
-    "Dile a alguien del grupo por qué realmente no confías en él/ella (si es el caso)",
-    "Cuéntale al grupo sobre la persona que más has odiado",
+    "Cuéntale al grupo sobre una decisión difícil que tuviste que tomar",
+    "Cuéntale al grupo sobre la persona que más has admirado",
     "Confiesa algo que has hecho que te avergüenza profundamente",
   ];
 

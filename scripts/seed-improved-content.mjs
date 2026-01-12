@@ -10,6 +10,12 @@ const db = drizzle(process.env.DATABASE_URL);
 async function seedImprovedContent() {
   console.log("🌱 Seeding improved content...");
 
+  // WARNING: This clears existing questions and challenges
+  // Only run this script in development or with proper backups
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("This script should not be run in production. Use seed-data.mjs for initial setup.");
+  }
+
   // Clear existing questions and challenges
   console.log("🗑️ Clearing existing questions and challenges...");
   await db.delete(questions);
@@ -329,7 +335,7 @@ async function seedImprovedContent() {
   // ========================================
 
   const improvedAdultosChallenges = [
-    "Llama a tu ex y dile que aún piensas en él/ella (sin decirle que es un reto)",
+    "Llama a un amigo cercano y pídele que te cuente un secreto (sin decirle que es un reto)",
     "Envía un mensaje de texto vergonzoso a alguien importante en tu vida",
     "Haz una confesión de amor falsa a alguien del grupo",
     "Baila de forma sensual durante 30 segundos mientras todos te miran",
@@ -349,15 +355,15 @@ async function seedImprovedContent() {
     "Dile a alguien del grupo algo que siempre quisiste hacer con él/ella (sin ser gráfico)",
     "Confiesa tu mayor inseguridad en una relación",
     "Cuéntale al grupo sobre tu mayor miedo en una relación",
-    "Confiesa algo que has hecho que nadie sabe (puede ser ilegal o inmoral)",
+    "Confiesa algo que has hecho que te hace sentir culpable",
     "Dile a alguien del grupo algo que siempre quisiste decirle pero nunca te atreviste",
     "Cuéntale al grupo sobre la vez que más miedo tuviste",
     "Confiesa algo que has hecho que te hace sentir culpable",
     "Dile a alguien del grupo algo que nadie más sabe sobre ti",
     "Cuéntale al grupo tu mayor arrepentimiento en la vida",
     "Confiesa algo que has hecho que cambió quién eres",
-    "Dile a alguien del grupo por qué realmente no confías en él/ella (si es el caso)",
-    "Cuéntale al grupo sobre la persona que más has odiado",
+    "Cuéntale al grupo sobre una decisión difícil que tuviste que tomar",
+    "Cuéntale al grupo sobre la persona que más has admirado",
     "Confiesa algo que has hecho que te avergüenza profundamente"
   ];
 
