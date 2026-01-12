@@ -1,29 +1,26 @@
 import { drizzle } from "drizzle-orm/mysql2";
 import { questionPacks, questions, miniChallenges } from "../drizzle/schema.js";
+import { eq } from "drizzle-orm";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 const db = drizzle(process.env.DATABASE_URL);
 
-async function seed() {
-  console.log("🌱 Seeding database...");
+async function seedImprovedContent() {
+  console.log("🌱 Seeding improved content...");
 
-  // Insert free pack
-  await db.insert(questionPacks).values({
-    packId: "para-romper-el-hielo",
-    name: "Para Romper el Hielo",
-    description: "Preguntas divertidas y seguras para cualquier grupo",
-    mode: "both",
-    price: 0,
-    stripePriceId: null,
-    isActive: 1,
-  });
+  // Clear existing questions and challenges
+  console.log("🗑️ Clearing existing questions and challenges...");
+  await db.delete(questions);
+  await db.delete(miniChallenges);
+  console.log("✅ Existing content cleared");
 
-  console.log("✅ Pack 'Para Romper el Hielo' created");
-
-  // Insert questions for Familiar mode (IMPROVED VERSION)
-  const familiarQuestions = [
+  // ========================================
+  // Para Romper el Hielo - Improved Questions
+  // ========================================
+  
+  const paraRomperFamiliarQuestions = [
     "Ayer me encontré con mi expareja en el supermercado y nos tomamos un café juntos",
     "Mi hermano me pidió dinero prestado y nunca me lo devolvió, pero fingimos que no pasó nada",
     "Hace poco descubrí que mi mejor amigo habla mal de mí a sus otras amistades",
@@ -43,20 +40,10 @@ async function seed() {
     "Pretendí entender algo en una conversación pero en realidad no tenía idea",
     "Me arrepiento de algo que hice hace años pero nunca lo confesé",
     "Una vez tuve que elegir entre un amigo y mi pareja, y elegí a mi pareja",
-    "Fingí que me gustó un regalo que me dieron pero lo odié",
+    "Fingí que me gustó un regalo que me dieron pero lo odié"
   ];
 
-  const familiarQuestionsData = familiarQuestions.map((q) => ({
-    packId: "para-romper-el-hielo",
-    questionText: q,
-    mode: "familiar",
-  }));
-
-  await db.insert(questions).values(familiarQuestionsData);
-  console.log(`✅ ${familiarQuestions.length} Familiar questions created`);
-
-  // Insert questions for Adultos mode (IMPROVED VERSION)
-  const adultosQuestions = [
+  const paraRomperAdultosQuestions = [
     "Salí con alguien mientras aún estaba en una relación",
     "Mi pareja me preguntó cuántas parejas había tenido y mentí sobre el número",
     "Robé algo pequeño de una tienda y nunca lo confesé",
@@ -76,107 +63,28 @@ async function seed() {
     "Fingí estar enfermo para no ir a un compromiso importante",
     "Tomé dinero prestado de alguien y no lo devolví en el tiempo acordado",
     "Tuve que guardar un secreto que me afectaba emocionalmente pero no podía contárselo a nadie",
-    "Hice algo que sabía que estaba mal pero lo hice porque todos lo hacían",
+    "Hice algo que sabía que estaba mal pero lo hice porque todos lo hacían"
   ];
 
-  const adultosQuestionsData = adultosQuestions.map((q) => ({
+  const paraRomperFamiliarData = paraRomperFamiliarQuestions.map((q) => ({
+    packId: "para-romper-el-hielo",
+    questionText: q,
+    mode: "familiar",
+  }));
+
+  const paraRomperAdultosData = paraRomperAdultosQuestions.map((q) => ({
     packId: "para-romper-el-hielo",
     questionText: q,
     mode: "adultos",
   }));
 
-  await db.insert(questions).values(adultosQuestionsData);
-  console.log(`✅ ${adultosQuestions.length} Adultos questions created`);
-
-  // Insert mini challenges for Familiar mode (IMPROVED VERSION)
-  const familiarChallenges = [
-    "Llama a tu mamá ahora y cuéntale un chisme falso sobre alguien del grupo (sin decirle que es falso)",
-    "Haz un baile ridículo durante 30 segundos mientras todos te graban",
-    "Canta la canción más vergonzosa que conozcas en voz alta",
-    "Imita a cada persona del grupo de forma exagerada (máximo 1 minuto por persona)",
-    "Cuéntale a alguien del grupo un secreto vergonzoso (real o inventado)",
-    "Haz una llamada a alguien y dile que ganó un premio (sin revelar que es broma)",
-    "Escribe un mensaje de amor vergonzoso a alguien del grupo y léelo en voz alta",
-    "Pídele a alguien del grupo que te dé un masaje en los pies durante 1 minuto",
-    "Haz una imitación de alguien del grupo mientras te miran a los ojos",
-    "Cuéntale a alguien una historia completamente falsa como si fuera verdad (máximo 2 minutos)",
-    "Dibuja a cada persona del grupo en 30 segundos cada una",
-    "Crea una canción sobre alguien del grupo en el momento",
-    "Haz una predicción sobre el futuro de alguien del grupo (lo más específico posible)",
-    "Escribe un poema vergonzoso sobre ti mismo y léelo en voz alta",
-    "Crea un personaje ficticio y cuéntale su historia al grupo",
-    "Dibuja algo basado en una palabra que alguien te diga (máximo 1 minuto)",
-    "Escribe un titular de periódico sobre alguien del grupo",
-    "Crea un comercial falso para un producto ridículo",
-    "Haz una lista de las cosas más vergonzosas que has hecho (mínimo 5)",
-    "Crea un meme mental sobre alguien del grupo y descríbelo",
-    "Confiesa algo que nunca le has dicho a nadie en el grupo",
-    "Dile a alguien del grupo algo que siempre quisiste decirle pero nunca te atreviste",
-    "Cuéntale al grupo tu mayor miedo",
-    "Confiesa algo que te avergüenza de tu pasado",
-    "Dile a alguien del grupo por qué es importante para ti",
-    "Cuéntale al grupo tu mayor inseguridad",
-    "Confiesa algo que has mentido sobre ti mismo",
-    "Dile a alguien del grupo algo que siempre quisiste que supiera",
-    "Cuéntale al grupo tu mayor arrepentimiento",
-    "Confiesa algo que has hecho que nadie sabe",
-  ];
-
-  const familiarChallengesData = familiarChallenges.map((c) => ({
-    challengeText: c,
-    mode: "familiar",
-  }));
-
-  await db.insert(miniChallenges).values(familiarChallengesData);
-  console.log(`✅ ${familiarChallenges.length} Familiar challenges created`);
-
-  // Insert mini challenges for Adultos mode (IMPROVED VERSION)
-  const adultosChallenges = [
-    "Llama a tu ex y dile que aún piensas en él/ella (sin decirle que es un reto)",
-    "Envía un mensaje de texto vergonzoso a alguien importante en tu vida",
-    "Haz una confesión de amor falsa a alguien del grupo",
-    "Baila de forma sensual durante 30 segundos mientras todos te miran",
-    "Canta una canción de amor vergonzosa a alguien del grupo",
-    "Haz una imitación de una escena de película de adultos (sin ser gráfico)",
-    "Cuéntale a alguien del grupo tu fantasía más vergonzosa (sin detalles explícitos)",
-    "Haz una lista de tus tipos ideales y léela en voz alta",
-    "Describe a alguien del grupo de forma atractiva sin ser ofensivo",
-    "Crea un perfil de citas falso para alguien del grupo (de forma divertida)",
-    "Confiesa tu mayor secreto sexual (sin detalles explícitos)",
-    "Cuéntale al grupo sobre tu peor experiencia romántica",
-    "Confiesa algo que has hecho que te avergüenza en una relación",
-    "Dile a alguien del grupo qué te atrae de él/ella (de forma honesta)",
-    "Cuéntale al grupo sobre tu mayor fracaso romántico",
-    "Confiesa algo que has mentido sobre tu vida sexual",
-    "Cuéntale al grupo sobre la persona con la que más te arrepientes haber estado",
-    "Dile a alguien del grupo algo que siempre quisiste hacer con él/ella (sin ser gráfico)",
-    "Confiesa tu mayor inseguridad en una relación",
-    "Cuéntale al grupo sobre tu mayor miedo en una relación",
-    "Confiesa algo que has hecho que nadie sabe (puede ser ilegal o inmoral)",
-    "Dile a alguien del grupo algo que siempre quisiste decirle pero nunca te atreviste",
-    "Cuéntale al grupo sobre la vez que más miedo tuviste",
-    "Confiesa algo que has hecho que te hace sentir culpable",
-    "Dile a alguien del grupo algo que nadie más sabe sobre ti",
-    "Cuéntale al grupo tu mayor arrepentimiento en la vida",
-    "Confiesa algo que has hecho que cambió quién eres",
-    "Dile a alguien del grupo por qué realmente no confías en él/ella (si es el caso)",
-    "Cuéntale al grupo sobre la persona que más has odiado",
-    "Confiesa algo que has hecho que te avergüenza profundamente",
-  ];
-
-  const adultosChallengesData = adultosChallenges.map((c) => ({
-    challengeText: c,
-    mode: "adultos",
-  }));
-
-  await db.insert(miniChallenges).values(adultosChallengesData);
-  console.log(`✅ ${adultosChallenges.length} Adultos challenges created`);
+  await db.insert(questions).values([...paraRomperFamiliarData, ...paraRomperAdultosData]);
+  console.log(`✅ Para Romper el Hielo: ${paraRomperFamiliarQuestions.length} familiar + ${paraRomperAdultosQuestions.length} adultos questions`);
 
   // ========================================
-  // Premium Packs Questions (IMPROVED VERSION)
-  // ========================================
-
   // Salseo Total - Adultos Questions
+  // ========================================
+
   const salseoTotalQuestions = [
     "He visto a alguien importante en mi círculo haciendo algo que podría arruinar su reputación",
     "Mi pareja tiene una amistad que me pone celoso/a pero nunca lo he confesado",
@@ -207,7 +115,7 @@ async function seed() {
     "Alguien en mi círculo está gastando dinero que no tiene y todos lo sabemos",
     "He visto a un amigo mentirle a su pareja y me siento incómodo/a",
     "Mi pareja tiene un amigo que claramente está enamorado de él/ella",
-    "He fingido que no me importa algo que en realidad me importa mucho",
+    "He fingido que no me importa algo que en realidad me importa mucho"
   ];
 
   const salseoTotalData = salseoTotalQuestions.map((q) => ({
@@ -219,7 +127,10 @@ async function seed() {
   await db.insert(questions).values(salseoTotalData);
   console.log(`✅ Salseo Total: ${salseoTotalQuestions.length} adultos questions`);
 
+  // ========================================
   // Dilemas Morales - Both Modes
+  // ========================================
+
   const dilemasMoralesQuestions = [
     "¿Mentirías para proteger a alguien que amas?",
     "¿Reportarías a un amigo si comete un crimen menor?",
@@ -250,9 +161,10 @@ async function seed() {
     "¿Dirías la verdad si saber la verdad cambiaría cómo alguien te ve?",
     "¿Ayudarías a alguien si significa sacrificar tu tiempo?",
     "¿Dirías que no a una persona importante si no quieres hacer algo?",
-    "¿Tomarías una decisión que beneficia a muchos pero perjudica a uno?",
+    "¿Tomarías una decisión que beneficia a muchos pero perjudica a uno?"
   ];
 
+  // First 15 for familiar, all 30 for adultos
   const dilemasFamiliarData = dilemasMoralesQuestions.slice(0, 15).map((q) => ({
     packId: "dilemas-morales",
     questionText: q,
@@ -268,7 +180,10 @@ async function seed() {
   await db.insert(questions).values([...dilemasFamiliarData, ...dilemasAdultosData]);
   console.log(`✅ Dilemas Morales: ${dilemasFamiliarData.length} familiar + ${dilemasAdultosData.length} adultos questions`);
 
+  // ========================================
   // Recuerdos de la Infancia - Familiar
+  // ========================================
+
   const recuerdosInfanciaQuestions = [
     "Recuerdo que cuando era niño/a, mis papás me llevaban a un lugar especial cada fin de semana",
     "Tenía un mejor amigo de la infancia con el que ya no hablo",
@@ -299,7 +214,7 @@ async function seed() {
     "Tenía un ritual diario que hacía con mi familia",
     "Recuerdo que me enteré de algo que cambió mi inocencia",
     "Tuve un regalo especial que guardé por años",
-    "Recuerdo que sentía que no pertenecía en algún lugar",
+    "Recuerdo que sentía que no pertenecía en algún lugar"
   ];
 
   const recuerdosInfanciaData = recuerdosInfanciaQuestions.map((q) => ({
@@ -311,7 +226,10 @@ async function seed() {
   await db.insert(questions).values(recuerdosInfanciaData);
   console.log(`✅ Recuerdos de la Infancia: ${recuerdosInfanciaQuestions.length} familiar questions`);
 
+  // ========================================
   // Historias de Viaje - Both Modes
+  // ========================================
+
   const historiasViajeQuestions = [
     "Tuve un viaje donde algo salió completamente mal pero terminó siendo la mejor historia",
     "Me perdí en una ciudad extranjera y tuve que improvisar",
@@ -342,9 +260,10 @@ async function seed() {
     "Tuve una experiencia de viaje que me hizo apreciar mi hogar",
     "Viajé con dinero limitado y tuve que ser muy creativo",
     "Tuve un encuentro con alguien famoso o importante en un viaje",
-    "Viajé a un lugar que siempre quise visitar y fue decepcionante",
+    "Viajé a un lugar que siempre quise visitar y fue decepcionante"
   ];
 
+  // First 20 for familiar, all 30 for adultos
   const viajesFamiliarData = historiasViajeQuestions.slice(0, 20).map((q) => ({
     packId: "historias-viaje",
     questionText: q,
@@ -360,54 +279,101 @@ async function seed() {
   await db.insert(questions).values([...viajesFamiliarData, ...viajesAdultosData]);
   console.log(`✅ Historias de Viaje: ${viajesFamiliarData.length} familiar + ${viajesAdultosData.length} adultos questions`);
 
-  // Insert premium packs metadata
-  const premiumPacks = [
-    {
-      packId: "salseo-total",
-      name: "Salseo Total",
-      description: "Preguntas atrevidas para grupos con mucha confianza",
-      mode: "adultos",
-      price: 299, // $2.99
-      stripePriceId: null, // Will be set when Stripe is configured
-      isActive: 1,
-    },
-    {
-      packId: "dilemas-morales",
-      name: "Dilemas Morales",
-      description: "Escenarios hipotéticos que exploran tu forma de pensar",
-      mode: "both",
-      price: 299,
-      stripePriceId: null,
-      isActive: 1,
-    },
-    {
-      packId: "recuerdos-infancia",
-      name: "Recuerdos de la Infancia",
-      description: "Anécdotas y vivencias de cuando erais niños",
-      mode: "familiar",
-      price: 299,
-      stripePriceId: null,
-      isActive: 1,
-    },
-    {
-      packId: "historias-viaje",
-      name: "Historias de Viaje",
-      description: "Aventuras, desastres y descubrimientos en tus viajes",
-      mode: "both",
-      price: 299,
-      stripePriceId: null,
-      isActive: 1,
-    },
+  // ========================================
+  // Improved Mini Challenges - Familiar
+  // ========================================
+
+  const improvedFamiliarChallenges = [
+    "Llama a tu mamá ahora y cuéntale un chisme falso sobre alguien del grupo (sin decirle que es falso)",
+    "Haz un baile ridículo durante 30 segundos mientras todos te graban",
+    "Canta la canción más vergonzosa que conozcas en voz alta",
+    "Imita a cada persona del grupo de forma exagerada (máximo 1 minuto por persona)",
+    "Cuéntale a alguien del grupo un secreto vergonzoso (real o inventado)",
+    "Haz una llamada a alguien y dile que ganó un premio (sin revelar que es broma)",
+    "Escribe un mensaje de amor vergonzoso a alguien del grupo y léelo en voz alta",
+    "Pídele a alguien del grupo que te dé un masaje en los pies durante 1 minuto",
+    "Haz una imitación de alguien del grupo mientras te miran a los ojos",
+    "Cuéntale a alguien una historia completamente falsa como si fuera verdad (máximo 2 minutos)",
+    "Dibuja a cada persona del grupo en 30 segundos cada una",
+    "Crea una canción sobre alguien del grupo en el momento",
+    "Haz una predicción sobre el futuro de alguien del grupo (lo más específico posible)",
+    "Escribe un poema vergonzoso sobre ti mismo y léelo en voz alta",
+    "Crea un personaje ficticio y cuéntale su historia al grupo",
+    "Dibuja algo basado en una palabra que alguien te diga (máximo 1 minuto)",
+    "Escribe un titular de periódico sobre alguien del grupo",
+    "Crea un comercial falso para un producto ridículo",
+    "Haz una lista de las cosas más vergonzosas que has hecho (mínimo 5)",
+    "Crea un meme mental sobre alguien del grupo y descríbelo",
+    "Confiesa algo que nunca le has dicho a nadie en el grupo",
+    "Dile a alguien del grupo algo que siempre quisiste decirle pero nunca te atreviste",
+    "Cuéntale al grupo tu mayor miedo",
+    "Confiesa algo que te avergüenza de tu pasado",
+    "Dile a alguien del grupo por qué es importante para ti",
+    "Cuéntale al grupo tu mayor inseguridad",
+    "Confiesa algo que has mentido sobre ti mismo",
+    "Dile a alguien del grupo algo que siempre quisiste que supiera",
+    "Cuéntale al grupo tu mayor arrepentimiento",
+    "Confiesa algo que has hecho que nadie sabe"
   ];
 
-  await db.insert(questionPacks).values(premiumPacks);
-  console.log(`✅ ${premiumPacks.length} Premium packs created`);
+  const improvedFamiliarChallengesData = improvedFamiliarChallenges.map((c) => ({
+    challengeText: c,
+    mode: "familiar",
+  }));
 
-  console.log("🎉 Database seeded successfully!");
+  await db.insert(miniChallenges).values(improvedFamiliarChallengesData);
+  console.log(`✅ ${improvedFamiliarChallenges.length} improved Familiar challenges`);
+
+  // ========================================
+  // Improved Mini Challenges - Adultos
+  // ========================================
+
+  const improvedAdultosChallenges = [
+    "Llama a tu ex y dile que aún piensas en él/ella (sin decirle que es un reto)",
+    "Envía un mensaje de texto vergonzoso a alguien importante en tu vida",
+    "Haz una confesión de amor falsa a alguien del grupo",
+    "Baila de forma sensual durante 30 segundos mientras todos te miran",
+    "Canta una canción de amor vergonzosa a alguien del grupo",
+    "Haz una imitación de una escena de película de adultos (sin ser gráfico)",
+    "Cuéntale a alguien del grupo tu fantasía más vergonzosa (sin detalles explícitos)",
+    "Haz una lista de tus tipos ideales y léela en voz alta",
+    "Describe a alguien del grupo de forma atractiva sin ser ofensivo",
+    "Crea un perfil de citas falso para alguien del grupo (de forma divertida)",
+    "Confiesa tu mayor secreto sexual (sin detalles explícitos)",
+    "Cuéntale al grupo sobre tu peor experiencia romántica",
+    "Confiesa algo que has hecho que te avergüenza en una relación",
+    "Dile a alguien del grupo qué te atrae de él/ella (de forma honesta)",
+    "Cuéntale al grupo sobre tu mayor fracaso romántico",
+    "Confiesa algo que has mentido sobre tu vida sexual",
+    "Cuéntale al grupo sobre la persona con la que más te arrepientes haber estado",
+    "Dile a alguien del grupo algo que siempre quisiste hacer con él/ella (sin ser gráfico)",
+    "Confiesa tu mayor inseguridad en una relación",
+    "Cuéntale al grupo sobre tu mayor miedo en una relación",
+    "Confiesa algo que has hecho que nadie sabe (puede ser ilegal o inmoral)",
+    "Dile a alguien del grupo algo que siempre quisiste decirle pero nunca te atreviste",
+    "Cuéntale al grupo sobre la vez que más miedo tuviste",
+    "Confiesa algo que has hecho que te hace sentir culpable",
+    "Dile a alguien del grupo algo que nadie más sabe sobre ti",
+    "Cuéntale al grupo tu mayor arrepentimiento en la vida",
+    "Confiesa algo que has hecho que cambió quién eres",
+    "Dile a alguien del grupo por qué realmente no confías en él/ella (si es el caso)",
+    "Cuéntale al grupo sobre la persona que más has odiado",
+    "Confiesa algo que has hecho que te avergüenza profundamente"
+  ];
+
+  const improvedAdultosChallengesData = improvedAdultosChallenges.map((c) => ({
+    challengeText: c,
+    mode: "adultos",
+  }));
+
+  await db.insert(miniChallenges).values(improvedAdultosChallengesData);
+  console.log(`✅ ${improvedAdultosChallenges.length} improved Adultos challenges`);
+
+  console.log("🎉 Improved content seeded successfully!");
   process.exit(0);
 }
 
-seed().catch((err) => {
-  console.error("❌ Error seeding database:", err);
+seedImprovedContent().catch((err) => {
+  console.error("❌ Error seeding improved content:", err);
   process.exit(1);
 });
