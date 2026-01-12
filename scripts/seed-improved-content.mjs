@@ -358,7 +358,7 @@ async function seedImprovedContent() {
     "Confiesa algo que has hecho que te hace sentir culpable",
     "Dile a alguien del grupo algo que siempre quisiste decirle pero nunca te atreviste",
     "Cuéntale al grupo sobre la vez que más miedo tuviste",
-    "Confiesa algo que has hecho que te hace sentir culpable",
+    "Confiesa algo vergonzoso que has hecho por amor",
     "Dile a alguien del grupo algo que nadie más sabe sobre ti",
     "Cuéntale al grupo tu mayor arrepentimiento en la vida",
     "Confiesa algo que has hecho que cambió quién eres",
