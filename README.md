@@ -21,8 +21,10 @@ Un juego de fiesta presencial donde un jugador miente y los demás deben descubr
 
 ### Packs de Preguntas
 
+**Nota:** Todas las preguntas y retos han sido mejorados para generar conversaciones más auténticas y profundas. Ver [MEJORAS_IMPLEMENTADAS.md](./MEJORAS_IMPLEMENTADAS.md) para más detalles.
+
 #### Pack Gratuito
-- **Para Romper el Hielo**: 40 preguntas (20 familiares + 20 adultos)
+- **Para Romper el Hielo**: 40 preguntas situacionales (20 familiares + 20 adultos)
 
 #### Packs Premium ($2.99 cada uno)
 - **Salseo Total**: Preguntas atrevidas para grupos con confianza
@@ -125,7 +127,7 @@ scripts/
 
 ## 🎯 Próximas Mejoras
 
-- [ ] Más packs de preguntas temáticos
+- [x] Contenido mejorado para todos los packs (Ver MEJORAS_IMPLEMENTADAS.md)
 - [ ] Sistema de logros y estadísticas
 - [ ] Modo multijugador online
 - [ ] Personalización de avatares
