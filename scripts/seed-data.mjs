@@ -133,7 +133,7 @@ async function seed() {
   // Insert mini challenges for Adultos mode (IMPROVED VERSION)
   const adultosChallenges = [
     "Llama a un amigo cercano y pídele que te cuente un secreto (sin decirle que es un reto)",
-    "Envía un mensaje de texto vergonzoso a alguien importante en tu vida",
+    "Envía un mensaje de texto divertido y positivo a un amigo para alegrarle el día",
     "Haz una confesión de amor falsa a alguien del grupo",
     "Baila de forma sensual durante 30 segundos mientras todos te miran",
     "Canta una canción de amor vergonzosa a alguien del grupo",
