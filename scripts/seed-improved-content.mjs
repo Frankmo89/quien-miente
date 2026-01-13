@@ -1,6 +1,5 @@
 import { drizzle } from "drizzle-orm/mysql2";
 import { questions, miniChallenges } from "../drizzle/schema.js";
-import { eq } from "drizzle-orm";
 import * as dotenv from "dotenv";
 
 dotenv.config();
