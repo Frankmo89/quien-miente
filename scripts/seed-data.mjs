@@ -333,7 +333,7 @@ async function seed() {
     "Viajé a un lugar que cambió mis valores o perspectiva",
     "Tuve que mentir sobre dónde estaba durante un viaje",
     "Viajé con alguien que no me caía bien pero terminamos siendo amigos",
-    "Hice algo ilegal o cuestionable en un viaje",
+    "Hice algo inesperado o fuera de mi zona de confort en un viaje",
     "Viajé a un lugar donde tuve miedo por mi seguridad",
     "Tuve una experiencia de viaje que me hizo llorar",
     "Viajé a un lugar que no recomendaría a nadie",
