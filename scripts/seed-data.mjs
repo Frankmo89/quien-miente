@@ -132,7 +132,7 @@ async function seed() {
 
   // Insert mini challenges for Adultos mode (IMPROVED VERSION)
   const adultosChallenges = [
-    "Llama a un amigo cercano y pídele que te cuente un secreto (sin decirle que es un reto)",
+    "Comparte con el grupo un secreto divertido o poco conocido sobre ti (solo si te sientes cómodo)",
     "Envía un mensaje de texto divertido y positivo a un amigo para alegrarle el día",
     "Haz una confesión de amor falsa a alguien del grupo",
     "Baila de forma sensual durante 30 segundos mientras todos te miran",
