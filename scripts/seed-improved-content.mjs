@@ -295,7 +295,7 @@ async function seedImprovedContent() {
     "Canta la canción más vergonzosa que conozcas en voz alta",
     "Imita a cada persona del grupo de forma exagerada (máximo 1 minuto por persona)",
     "Cuéntale a alguien del grupo un secreto vergonzoso (real o inventado)",
-    "Haz una llamada a alguien y dile que ganó un premio (sin revelar que es broma)",
+    "Haz una llamada o nota de voz a alguien del grupo y dile algo divertido o cariñoso (sin mentirle)",
     "Escribe un mensaje de amor vergonzoso a alguien del grupo y léelo en voz alta",
     "Pídele a alguien del grupo que te dé un masaje en los pies durante 1 minuto",
     "Haz una imitación de alguien del grupo mientras te miran a los ojos",
