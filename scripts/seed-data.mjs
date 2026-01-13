@@ -90,12 +90,12 @@ async function seed() {
 
   // Insert mini challenges for Familiar mode (IMPROVED VERSION)
   const familiarChallenges = [
-    "Llama a tu mamá ahora y cuéntale un chisme falso sobre alguien del grupo (sin decirle que es falso)",
+    "Llama a tu mamá ahora y dile algo lindo que normalmente no le dirías",
     "Haz un baile ridículo durante 30 segundos mientras todos te graban",
     "Canta la canción más vergonzosa que conozcas en voz alta",
     "Imita a cada persona del grupo de forma exagerada (máximo 1 minuto por persona)",
     "Cuéntale a alguien del grupo un secreto vergonzoso (real o inventado)",
-    "Haz una llamada a alguien y dile que ganó un premio (sin revelar que es broma)",
+    "Haz una videollamada a alguien y cuéntale algo positivo que admires de esa persona",
     "Escribe un mensaje de amor vergonzoso a alguien del grupo y léelo en voz alta",
     "Pídele a alguien del grupo que te dé un masaje en los pies durante 1 minuto",
     "Haz una imitación de alguien del grupo mientras te miran a los ojos",
