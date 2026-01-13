@@ -290,7 +290,7 @@ async function seedImprovedContent() {
   // ========================================
 
   const improvedFamiliarChallenges = [
-    "Llama a tu mamá ahora y cuéntale un chisme falso sobre alguien del grupo (sin decirle que es falso)",
+    "Llama a tu mamá ahora y dile algo bonito que nunca le hayas dicho",
     "Haz un baile ridículo durante 30 segundos mientras todos te graban",
     "Canta la canción más vergonzosa que conozcas en voz alta",
     "Imita a cada persona del grupo de forma exagerada (máximo 1 minuto por persona)",
