@@ -336,7 +336,7 @@ async function seedImprovedContent() {
 
   const improvedAdultosChallenges = [
     "Llama a un amigo cercano, cuéntale que estás jugando un juego y pregúntale si quiere compartir una anécdota divertida que puedas contar al grupo",
-    "Envía un mensaje de texto vergonzoso a alguien importante en tu vida",
+    "Envía un mensaje de texto positivo o de agradecimiento a alguien importante en tu vida",
     "Haz una confesión de amor falsa a alguien del grupo",
     "Baila de forma sensual durante 30 segundos mientras todos te miran",
     "Canta una canción de amor vergonzosa a alguien del grupo",
