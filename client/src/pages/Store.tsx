@@ -1,66 +1,43 @@
 import { Button } from "@/components/ui/button";
 import { useGame } from "@/contexts/GameContext";
-import { trpc } from "@/lib/trpc";
+import { OFFLINE_PACKS, getFreePacks, getPremiumPacks, type GamePack } from "@/config/store";
 import { Check, Loader2, ShoppingBag, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 
 export default function Store() {
   const { setPhase, isPackUnlocked, unlockPack } = useGame();
   const { trackEvent } = useAnalytics();
+  const [purchasingPackId, setPurchasingPackId] = useState<string | null>(null);
 
-  const { data: packs, isLoading } = trpc.game.getPacks.useQuery();
-  const createCheckoutMutation = trpc.stripe.createCheckoutSession.useMutation();
+  // Packs cargados localmente (offline-first)
+  const freePacks = getFreePacks();
+  const premiumPacks = getPremiumPacks();
 
   useEffect(() => {
     trackEvent("pack_viewed");
   }, []);
 
-  // Check for purchase result in URL
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const purchaseStatus = params.get("purchase");
-    const packId = params.get("pack");
-
-    if (purchaseStatus === "success" && packId) {
-      unlockPack(packId);
-      trackEvent("pack_purchased", { pack_id: packId });
-      toast.success("¡Pack desbloqueado con éxito!");
-      // Clean up URL
-      window.history.replaceState({}, "", window.location.pathname);
-    } else if (purchaseStatus === "canceled") {
-      toast.error("Compra cancelada");
-      window.history.replaceState({}, "", window.location.pathname);
-    }
-  }, [unlockPack]);
-
-  const handlePurchase = async (packId: string) => {
+  // TODO: Implementar compra con RevenueCat
+  const handlePurchase = async (pack: GamePack) => {
+    setPurchasingPackId(pack.id);
     try {
-      toast.info("Redirigiendo a la página de pago...");
-      const result = await createCheckoutMutation.mutateAsync({ packId });
+      // TODO: Integrar RevenueCat SDK
+      // const purchaseResult = await Purchases.purchaseProduct(pack.revenueCatId);
+      // if (purchaseResult) {
+      //   unlockPack(pack.id);
+      //   trackEvent("pack_purchased", { pack_id: pack.id });
+      //   toast.success("¡Pack desbloqueado con éxito!");
+      // }
       
-      if (result.url) {
-        window.location.href = result.url;
-      }
+      toast.info("Compras con RevenueCat próximamente disponibles");
     } catch (error: any) {
-      toast.error(error.message || "Error al crear la sesión de pago");
+      toast.error(error.message || "Error al procesar la compra");
+    } finally {
+      setPurchasingPackId(null);
     }
   };
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-6">
-        <div className="text-center space-y-6">
-          <Loader2 className="w-16 h-16 animate-spin mx-auto text-primary" />
-          <p className="text-2xl text-muted-foreground">Cargando packs...</p>
-        </div>
-      </div>
-    );
-  }
-
-  const freePacks = packs?.filter((p) => p.price === 0) || [];
-  const premiumPacks = packs?.filter((p) => p.price > 0) || [];
 
   return (
     <div className="min-h-screen bg-background text-foreground p-6">
@@ -110,7 +87,8 @@ export default function Store() {
             <h2 className="text-3xl font-bold text-accent">Packs Premium</h2>
             <div className="grid gap-6">
               {premiumPacks.map((pack) => {
-                const unlocked = isPackUnlocked(pack.packId);
+                const unlocked = isPackUnlocked(pack.id);
+                const isPurchasing = purchasingPackId === pack.id;
                 return (
                   <div
                     key={pack.id}
@@ -138,10 +116,10 @@ export default function Store() {
                       <Button
                         size="lg"
                         className="w-full h-14 text-xl font-bold"
-                        onClick={() => handlePurchase(pack.packId)}
-                        disabled={createCheckoutMutation.isPending}
+                        onClick={() => handlePurchase(pack)}
+                        disabled={isPurchasing}
                       >
-                        {createCheckoutMutation.isPending ? (
+                        {isPurchasing ? (
                           <>
                             <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                             Procesando...
@@ -149,7 +127,7 @@ export default function Store() {
                         ) : (
                           <>
                             <ShoppingCart className="w-5 h-5 mr-2" />
-                            Desbloquear por ${(pack.price / 100).toFixed(2)}
+                            Desbloquear por ${pack.price.toFixed(2)}
                           </>
                         )}
                       </Button>

@@ -1,3 +1,4 @@
+// DEPRECATED: WEB ONLY - NOT USED IN MOBILE APP
 import { Request, Response } from "express";
 import { stripe } from "./stripe";
 import { ENV } from "./_core/env";

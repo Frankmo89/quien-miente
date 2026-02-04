@@ -1,3 +1,4 @@
+// DEPRECATED: WEB ONLY - NOT USED IN MOBILE APP
 /**
  * Stripe products configuration for question packs
  */

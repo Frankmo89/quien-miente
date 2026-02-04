@@ -1,3 +1,4 @@
+// DEPRECATED: WEB ONLY - NOT USED IN MOBILE APP
 import Stripe from "stripe";
 import { ENV } from "./_core/env";
 
