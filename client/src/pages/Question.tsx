@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { useGame } from "@/contexts/GameContext";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
 import { trpc } from "@/lib/trpc";
-import { Loader2, MessageCircle } from "lucide-react";
+import { Loader2, MessageCircleQuestion, RefreshCw } from "lucide-react";
 import { useEffect } from "react";
 
 export default function Question() {
@@ -12,7 +12,7 @@ export default function Question() {
   // Use unlocked packs or default to free pack
   const packsToUse = gameState.unlockedPacks.length > 0 ? gameState.unlockedPacks : ["para-romper-el-hielo"];
 
-  const { data: question, isLoading, error } = trpc.game.getRandomQuestion.useQuery(
+  const { data: question, isLoading, error, refetch } = trpc.game.getRandomQuestion.useQuery(
     {
       packIds: packsToUse,
       mode: gameState.mode!,
@@ -32,6 +32,10 @@ export default function Question() {
       });
     }
   }, [question, setCurrentQuestion, trackEvent, gameState.mode]);
+
+  const handleNewQuestion = () => {
+    refetch();
+  };
 
   if (isLoading) {
     return (
@@ -64,38 +68,51 @@ export default function Question() {
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-background text-foreground p-6">
-      <div className="max-w-3xl w-full space-y-12">
-        <div className="text-center space-y-8">
-          <div className="flex justify-center">
-            <MessageCircle className="w-20 h-20 text-primary" />
-          </div>
-          
-          <div className="bg-card p-6 md:p-10 rounded-2xl border-4 border-primary shadow-2xl">
-            <h2 className="text-2xl md:text-3xl font-bold text-card-foreground leading-relaxed">
-              {gameState.currentQuestion}
-            </h2>
-          </div>
-
-          <div className="space-y-4">
-            <p className="text-xl md:text-2xl text-muted-foreground font-semibold">
-              El mentiroso debe inventar una historia.
-            </p>
-            <p className="text-xl md:text-2xl text-muted-foreground font-semibold">
-              Los demás, contad la verdad.
-            </p>
-            <p className="text-lg text-muted-foreground">
-              ¡Que empiece la conversación!
-            </p>
-          </div>
+      <div className="max-w-4xl w-full space-y-12">
+        {/* Header - visible for group */}
+        <div className="text-center space-y-4">
+          <MessageCircleQuestion className="w-16 h-16 md:w-20 md:h-20 mx-auto text-primary" />
+          <p className="text-xl md:text-2xl text-muted-foreground uppercase tracking-widest font-semibold">
+            Ronda {gameState.roundNumber || 1}
+          </p>
         </div>
 
-        <Button
-          size="lg"
-          className="w-full h-20 text-3xl font-bold"
-          onClick={() => setPhase("voting-intro")}
-        >
-          HEMOS TERMINADO DE HABLAR
-        </Button>
+        {/* Main Question - Large text for group visibility */}
+        <div className="bg-card/50 rounded-3xl p-8 md:p-12 border-2 border-border">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-center text-foreground leading-tight">
+            {gameState.currentQuestion}
+          </h1>
+        </div>
+
+        {/* Instructions - Medium size for context */}
+        <div className="text-center space-y-2">
+          <p className="text-xl md:text-2xl text-muted-foreground">
+            Cada jugador debe contar su historia.
+          </p>
+          <p className="text-lg md:text-xl text-muted-foreground/80">
+            El mentiroso debe inventar una historia convincente.
+          </p>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={handleNewQuestion}
+            className="flex-1 h-16 text-xl font-bold"
+          >
+            <RefreshCw className="w-6 h-6 mr-2" />
+            Otra pregunta
+          </Button>
+          <Button
+            size="lg"
+            onClick={() => setPhase("voting-intro")}
+            className="flex-1 h-16 text-xl font-bold"
+          >
+            EMPEZAR VOTACIÓN
+          </Button>
+        </div>
       </div>
     </div>
   );

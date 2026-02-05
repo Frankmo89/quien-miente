@@ -1,15 +1,24 @@
 import { Button } from "@/components/ui/button";
 import { useGame } from "@/contexts/GameContext";
-import { OFFLINE_PACKS, getFreePacks, getPremiumPacks, type GamePack } from "@/config/store";
-import { Check, Loader2, ShoppingBag, ShoppingCart } from "lucide-react";
+import { getFreePacks, getPremiumPacks, type GamePack } from "@/config/store";
+import { Check, Loader2, RefreshCw, ShoppingBag, ShoppingCart } from "lucide-react";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { useAnalytics } from "@/contexts/AnalyticsContext";
+import { usePurchases } from "@/hooks/usePurchases";
 
 export default function Store() {
   const { setPhase, isPackUnlocked, unlockPack } = useGame();
   const { trackEvent } = useAnalytics();
+  const { 
+    isLoading: isPurchaseLoading, 
+    purchasePack, 
+    restorePurchases,
+    error: purchaseError 
+  } = usePurchases();
+  
   const [purchasingPackId, setPurchasingPackId] = useState<string | null>(null);
+  const [isRestoring, setIsRestoring] = useState(false);
 
   // Packs cargados localmente (offline-first)
   const freePacks = getFreePacks();
@@ -17,25 +26,55 @@ export default function Store() {
 
   useEffect(() => {
     trackEvent("pack_viewed");
-  }, []);
+  }, [trackEvent]);
 
-  // TODO: Implementar compra con RevenueCat
+  // Show error toast when purchase fails
+  useEffect(() => {
+    if (purchaseError) {
+      toast.error(purchaseError);
+    }
+  }, [purchaseError]);
+
   const handlePurchase = async (pack: GamePack) => {
     setPurchasingPackId(pack.id);
+    
     try {
-      // TODO: Integrar RevenueCat SDK
-      // const purchaseResult = await Purchases.purchaseProduct(pack.revenueCatId);
-      // if (purchaseResult) {
-      //   unlockPack(pack.id);
-      //   trackEvent("pack_purchased", { pack_id: pack.id });
-      //   toast.success("¡Pack desbloqueado con éxito!");
-      // }
+      // Use the RevenueCat product ID if available, otherwise use pack ID
+      const productId = pack.revenueCatId || pack.id;
       
-      toast.info("Compras con RevenueCat próximamente disponibles");
-    } catch (error: any) {
-      toast.error(error.message || "Error al procesar la compra");
+      const success = await purchasePack(productId);
+      
+      if (success) {
+        // Unlock the pack in game context
+        unlockPack(pack.id);
+        trackEvent("pack_purchased", { pack_id: pack.id });
+        toast.success("¡Pack desbloqueado con éxito!");
+      }
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Error al procesar la compra";
+      toast.error(errorMessage);
     } finally {
       setPurchasingPackId(null);
+    }
+  };
+
+  const handleRestorePurchases = async () => {
+    setIsRestoring(true);
+    
+    try {
+      const success = await restorePurchases();
+      
+      if (success) {
+        toast.success("Compras restauradas correctamente");
+        trackEvent("purchases_restored");
+      } else {
+        toast.info("No se encontraron compras previas");
+      }
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Error al restaurar compras";
+      toast.error(errorMessage);
+    } finally {
+      setIsRestoring(false);
     }
   };
 
@@ -50,6 +89,29 @@ export default function Store() {
           <p className="text-2xl text-muted-foreground">
             Nuevas preguntas, nuevas historias
           </p>
+        </div>
+
+        {/* Restore Purchases Button */}
+        <div className="flex justify-center">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleRestorePurchases}
+            disabled={isRestoring || isPurchaseLoading}
+            className="text-muted-foreground"
+          >
+            {isRestoring ? (
+              <>
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                Restaurando...
+              </>
+            ) : (
+              <>
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Restaurar compras
+              </>
+            )}
+          </Button>
         </div>
 
         {freePacks.length > 0 && (
@@ -89,6 +151,8 @@ export default function Store() {
               {premiumPacks.map((pack) => {
                 const unlocked = isPackUnlocked(pack.id);
                 const isPurchasing = purchasingPackId === pack.id;
+                const isDisabled = isPurchasing || isPurchaseLoading || isRestoring;
+                
                 return (
                   <div
                     key={pack.id}
@@ -117,7 +181,7 @@ export default function Store() {
                         size="lg"
                         className="w-full h-14 text-xl font-bold"
                         onClick={() => handlePurchase(pack)}
-                        disabled={isPurchasing}
+                        disabled={isDisabled}
                       >
                         {isPurchasing ? (
                           <>
